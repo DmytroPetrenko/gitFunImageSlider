@@ -1,18 +1,14 @@
 <template>
 	<div class="slider">
 		<div class="mainImage">
-			<zoom-on-hover
-				:img-normal="activeImageThumbnailUrl"
-				:img-zoom="activeImageUrl"
-			></zoom-on-hover>
-			<!-- <img :src="activeImageUrl" /> -->
+			<zoom-on-hover :img-normal="activeImage" :img-zoom="zoomedActiveImage" />
 		</div>
 		<div class="images">
 			<img
 				v-for="image in images"
 				:key="image.id"
 				:src="image.thumbnailUrl"
-				@click="setActiveImage(image.url)"
+				@click="setActiveImage(image)"
 			/>
 		</div>
 	</div>
@@ -28,13 +24,14 @@ export default {
 	},
 	data() {
 		return {
-			activeImageUrl: this.images[0].url,
-			activeImageThumbnailUrl: this.images[0].thumbnailUrl,
+			zoomedActiveImage: this.images?.[0]?.url,
+			activeImage: this.images?.[0]?.thumbnailUrl,
 		}
 	},
 	methods: {
-		setActiveImage(url) {
-			this.activeImageUrl = url
+		setActiveImage(image) {
+			this.activeImage = image.thumbnailUrl
+			this.zoomedActiveImage = image.url
 		},
 	},
 }
