@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="vue-magnifier-container">
-			<slot></slot>
+			<slot />
 			<span
 				ref="magnificationElement"
 				class="preview"
@@ -16,8 +16,14 @@
 <script>
 export default {
 	props: {
-		src: String,
-		srcLarge: String,
+		src: {
+			type: String,
+			required: true,
+		},
+		srcLarge: {
+			type: String,
+			required: true,
+		},
 	},
 	computed: {
 		glassStyle() {
@@ -25,7 +31,7 @@ export default {
 				backgroundImage: `url(${this.srcLarge})`,
 				backgroundPosition: this.backgroundPos,
 				left: `${this.cursorX}px`,
-				top: this.cursorY + "px",
+				top: `${this.cursorY}px`,
 			}
 		},
 	},
@@ -53,9 +59,8 @@ export default {
 					// deal with browser quirks with body/window/document and page scroll
 					const xScroll = el.scrollLeft || document.documentElement.scrollLeft
 					const yScroll = el.scrollTop || document.documentElement.scrollTop
-					xPos +=
-						el.offsetLeft - xScroll + el.clientLeft + parseInt(transform[0])
-					yPos += el.offsetTop - yScroll + el.clientTop + parseInt(transform[1])
+					xPos += el.offsetLeft - xScroll + el.clientLeft + Number(transform[0])
+					yPos += el.offsetTop - yScroll + el.clientTop + Number(transform[1])
 				} else {
 					// for all other non-BODY elements
 					xPos +=
@@ -64,7 +69,7 @@ export default {
 						el.clientLeft +
 						parseInt(transform[0])
 					yPos +=
-						el.offsetTop - el.scrollTop + el.clientTop + parseInt(transform[1])
+						el.offsetTop - el.scrollTop + el.clientTop + Number(transform[1])
 				}
 				el = el.offsetParent
 			}
