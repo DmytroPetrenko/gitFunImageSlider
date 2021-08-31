@@ -51,31 +51,32 @@ export default {
 		getBounds() {
 			let el = this.$refs.magnificationElement
 			this.bounds = el.getBoundingClientRect()
-			let xPos = 0
-			let yPos = 0
+			const pos = {
+				xPos: 0,
+				yPos: 0,
+			}
 			while (el) {
 				const transform = this.getTransform(el)
 				if (el.tagName === "BODY") {
 					// deal with browser quirks with body/window/document and page scroll
 					const xScroll = el.scrollLeft || document.documentElement.scrollLeft
 					const yScroll = el.scrollTop || document.documentElement.scrollTop
-					xPos += el.offsetLeft - xScroll + el.clientLeft + Number(transform[0])
-					yPos += el.offsetTop - yScroll + el.clientTop + Number(transform[1])
+					pos.xPos +=
+						el.offsetLeft - xScroll + el.clientLeft + Number(transform[0])
+					pos.yPos +=
+						el.offsetTop - yScroll + el.clientTop + Number(transform[1])
 				} else {
 					// for all other non-BODY elements
-					xPos +=
-						el.offsetLeft -
-						el.scrollLeft +
-						el.clientLeft +
-						parseInt(transform[0])
-					yPos +=
+					pos.xPos +=
+						el.offsetLeft - el.scrollLeft + el.clientLeft + Number(transform[0])
+					pos.yPos +=
 						el.offsetTop - el.scrollTop + el.clientTop + Number(transform[1])
 				}
 				el = el.offsetParent
 			}
 			this.thumbPos = {
-				x: xPos,
-				y: yPos,
+				x: pos.xPos,
+				y: pos.yPos,
 			}
 		},
 		moveMagnifier(e) {
@@ -131,6 +132,12 @@ export default {
 			)
 		})
 	},
+	beforeDestroy() {
+		this.$refs.magnificationElement?.removeEventListener(
+			"mousemove",
+			this.moveMagnifier
+		)
+	},
 	data() {
 		return {
 			img: null,
@@ -154,9 +161,9 @@ $magnifier-width: 150px; // Modify the width of the magnifying glass component
 $magnifier-height: 150px; // Modify the height of the magnifying glass component
 // Define your responsive sizes of
 $sizes: (
-	"(max-width: 320px)" 200px 200px,
-	"(max-width: 480px)" 250px 250px,
-	"(min-width: 481px)" 300px 300px,
+	"(max-width: 320px)" 300px 200px,
+	"(max-width: 480px)" 350px 250px,
+	"(min-width: 481px)" 350px 300px,
 	"(min-width: 1024px)" 350px 350px,
 	"(min-width: 1280px)" 400px 400px
 );

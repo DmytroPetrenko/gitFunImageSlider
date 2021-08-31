@@ -9,7 +9,7 @@ const actions = {
 	async fetchPhotos({ commit }) {
 		try {
 			const response = await axios.get(
-				"https://jsonplaceholder.typicode.com/photos?_start=0&_limit=10"
+				"https://picsum.photos/v2/list?page=1&limit=5"
 			)
 			commit("initPhotos", response.data)
 		} catch (error) {

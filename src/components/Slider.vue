@@ -1,7 +1,7 @@
 <template>
 	<div class="slider">
 		<div class="mainImage">
-			<VueMagnifier :src="activeImage" :src-large="zoomedActiveImage" />
+			<VueMagnifier :src="activeImage" :src-large="activeImage" />
 		</div>
 		<div class="images">
 			<font-awesome-icon
@@ -12,7 +12,7 @@
 			<img
 				v-for="(image, index) in images"
 				:key="image.id"
-				:src="image.thumbnailUrl"
+				:src="image.download_url"
 				@click="setActiveImageIndex(index)"
 			/>
 			<font-awesome-icon
@@ -42,15 +42,13 @@ export default {
 	components: { VueMagnifier },
 	data() {
 		return {
-			zoomedActiveImage: this.images?.[0]?.url,
-			activeImage: this.images?.[0]?.thumbnailUrl,
+			activeImage: this.images?.[0]?.download_url,
 			activeImageIndex: 0,
 		}
 	},
 	methods: {
 		setActiveImage() {
-			this.activeImage = this.images?.[this.activeImageIndex]?.thumbnailUrl
-			this.zoomedActiveImage = this.images?.[this.activeImageIndex]?.url
+			this.activeImage = this.images?.[this.activeImageIndex]?.download_url
 		},
 		setActiveImageIndex(index) {
 			this.activeImageIndex = index
@@ -80,17 +78,19 @@ export default {
 .slider {
 	display: flex;
 	flex-direction: column;
-	max-width: 750px;
+	align-items: center;
+	max-width: 100%;
+	width: 100%;
 }
 .mainImage,
 .images {
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap;
 }
 .mainImage {
 	margin: 10px;
 	max-width: 400px;
-	align-self: center;
 }
 .arrow {
 	cursor: pointer;
@@ -101,5 +101,7 @@ export default {
 .images img {
 	margin: 5px;
 	cursor: pointer;
+	max-width: 150px;
+	max-height: 150px;
 }
 </style>
