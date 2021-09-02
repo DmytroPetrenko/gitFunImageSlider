@@ -1,9 +1,13 @@
 import Vue from "vue"
 import App from "./App.vue"
 import store from "./store"
-import ZoomOnHover from "vue-zoom-on-hover"
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
-Vue.use(ZoomOnHover)
+library.add(faArrowLeft, faArrowRight)
+
+Vue.component("font-awesome-icon", FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
